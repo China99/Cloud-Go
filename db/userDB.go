@@ -32,7 +32,7 @@ func UserSignUp(username string, password string) bool {
 
 	//代码冗余，待修改
 	stmt, err := mydb.DBConn().Prepare(
-		"INSERT into tb_user(`username`,`password`,`status`)values (?,?,1)")
+		"insert ignore into tb_user(`username`, `password`, `status`) values(?,?,1)")
 	if err != nil {
 		log.Fatalf("Faild to prepare statement,err", err)
 		return false
@@ -50,5 +50,47 @@ func UserSignUp(username string, password string) bool {
 		return true
 	}
 	return false
+}
+
+//sign in a user
+func UserSignin(username string, password string) bool {
+	stmt, err := mydb.DBConn().Prepare(
+		"select * from tb_user where username=? and password=? limit 1")
+	if err != nil {
+		fmt.Println("stmt err:", err.Error())
+		return false
+	}
+	defer stmt.Close()
+
+	//查询账号
+	rows, err := stmt.Query(username, password)
+	if err != nil {
+		fmt.Println("query user err", err.Error())
+		return false
+	} else if rows == nil {
+		fmt.Println("username not found" + username)
+		return false
+	}
+	fmt.Println("username:", username, "log in ok")
+	return true
+
+}
+
+//创建令牌 或者更新令牌
+func UpdateToken(username string, token string) bool {
+	stmt, err := mydb.DBConn().Prepare(
+		"replace into tb_user_token(username,user_token) values (?,?)")
+	if err != nil {
+		fmt.Println("stmt err", err.Error())
+		return false
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(username, token)
+	if err != nil {
+		fmt.Println("update token err ", err.Error())
+		return false
+	}
+	return true
 
 }
