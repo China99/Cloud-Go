@@ -1,13 +1,31 @@
 package util
 
 import (
-	"fmt"
 	"strconv"
 )
 
-func Eth2float64(str []string) (interface{}, error) {
-	if len(str) > 0 || len(str) == 1 {
-		feet, err := strconv.ParseFloat(str[0], 64)
+func Eth2float64(str []string) ([]*string, error) {
+
+	if len(str) > 0 {
+		var str11 []*string
+		for i := 0; i < len(str); i++ {
+
+			f, _ := strconv.ParseFloat(str[i], 64)
+
+			a := f / 1000000000000000000.00 //float
+			c := strconv.FormatFloat(a, 'f', 10, 64)
+			str11 = append(str11, &c)
+
+		}
+		return str11, nil
+
+	}
+	return nil, nil
+
+}
+
+/*	if len(str) == 1 {
+		feet, err := strconv.ParseFloat(*str[0], 64)
 		if err != nil {
 			return str, fmt.Errorf("转换出错：%v\n", err.Error())
 		} else {
@@ -35,7 +53,4 @@ func Eth2float64(str []string) (interface{}, error) {
 
 			}
 		}
-	}
-
-	return nil, nil
-}
+	}*/

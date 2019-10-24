@@ -36,8 +36,7 @@ func (r *ETHRPCRequester) GetETHBalanceV(address string, version string) (string
 	// 因为查询所返回的结果是一个16进制的字符串，
 	// 为了方便阅读，我们在下面使用 go 的大数处理将其转为 10 进制，
 	// 并防止数位溢出
-	/*bytes := []byte(result)
-	s := hex.EncodeToString(bytes)*/
+
 	ten, _ := new(big.Int).SetString(result[2:], 16)
 
 	return ten.String(), nil

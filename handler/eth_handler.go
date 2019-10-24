@@ -3,6 +3,7 @@ package handler
 import (
 	"Cloud-Go/handler/eth"
 	"Cloud-Go/util"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -20,8 +21,9 @@ func GetBalance(c *gin.Context) {
 	requester := eth.NewETHRPCRequester(NodeUrl)
 	balance, err := requester.GetETHBalanceV(address, Version)
 	//转化为实际金额
-
-	eth2float64, err := util.Eth2float64(balance)
+	var str1 []string
+	strings := append(str1, balance)
+	eth2float64, err := util.Eth2float64(strings)
 	if err != nil {
 		//查询失败
 		err := "地址查询失败"
@@ -48,6 +50,7 @@ func GetBalances(c *gin.Context) {
 	requester := eth.NewETHRPCRequester(NodeUrl)
 	balances, err := requester.GetBalances(address, Version)
 	eth2float64, err := util.Eth2float64(balances)
+	fmt.Println(eth2float64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": "",
