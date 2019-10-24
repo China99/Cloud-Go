@@ -58,7 +58,7 @@ func GetBalances(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"code": 200,
 			"msg":  "success",
-			"data": balances,
+			"data": eth2float64,
 		})
 	}
 
