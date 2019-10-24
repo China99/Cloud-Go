@@ -1,5 +1,8 @@
 package db
 
+/*
+import "fmt"
+
 import (
 	mydb "Cloud-Go/db/mysql"
 	"fmt"
@@ -28,7 +31,7 @@ func UserSignUp(username string, password string) bool {
 	if username != "" || password != "" {
 		return true
 	}
-	return false*/
+	return false
 
 	//代码冗余，待修改
 	stmt, err := mydb.DBConn().Prepare(
@@ -94,3 +97,4 @@ func UpdateToken(username string, token string) bool {
 	return true
 
 }
+*/

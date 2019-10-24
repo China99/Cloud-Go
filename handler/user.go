@@ -1,11 +1,8 @@
 package handler
 
 import (
-	"Cloud-Go/db"
 	"Cloud-Go/util"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"net/http"
 	"time"
 )
 
@@ -14,6 +11,7 @@ const (
 	tokenSalt = "_tokenSalt"
 )
 
+/*
 //注册界面
 func SignUpHandler(c *gin.Context) {
 	c.Redirect(http.StatusFound, "/static/view/signup.html")
@@ -93,7 +91,7 @@ func DoSignInHandler(c *gin.Context) {
 	//token := GenToken(username)
 	//db.UpdateToken
 }
-
+*/
 //生成用户令牌
 func GenToken(username string) string {
 	timestamp := fmt.Sprintf("%x", time.Now().Unix())

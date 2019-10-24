@@ -1,5 +1,6 @@
 package mysql
 
+/*
 import (
 	"Cloud-Go/config"
 	"database/sql"
@@ -24,3 +25,4 @@ func init() {
 func DBConn() *sql.DB {
 	return db
 }
+*/
