@@ -1,4 +1,4 @@
-package common
+package model
 
 type Transaction struct {
 	Id               int64  `json:"id"`                // 主键

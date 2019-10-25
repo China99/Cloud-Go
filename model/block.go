@@ -1,4 +1,4 @@
-package common
+package model
 
 type Block struct {
 	Id          int64  `json:"id"`           // 主键
