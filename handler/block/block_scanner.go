@@ -1,6 +1,8 @@
 package main
 
 import (
+	"Cloud-Go/handler/eth"
+	"Cloud-Go/model"
 	"errors"
 
 	"encoding/json"
@@ -15,16 +17,16 @@ import (
 // 区块扫描者。遍历出区块的交易，方便从交易中解析出数据，做自定义操作
 
 type BlockScanner struct {
-	ethRequester ETHRPCRequester    // 以太坊 rpc 请求者实例
-	mysql        dao.MySQLConnector // 数据库连接者实例
-	lastBlock    *dao.Block         // 用来存储每次遍历后，存储上一次的区块
-	lastNumber   *big.Int           // 上一次区块的区块号
-	fork         bool               // 用来监听是否发生了分叉
-	stop         chan bool          // 用来控制是否停止遍历的管道
-	lock         sync.Mutex         // 控制并发
+	ethRequester eth.ETHRPCRequester // 以太坊 rpc 请求者实例
+	mysql        dao.MySQLConnector  // 数据库连接者实例
+	lastBlock    *dao.Block          // 用来存储每次遍历后，存储上一次的区块
+	lastNumber   *big.Int            // 上一次区块的区块号
+	fork         bool                // 用来监听是否发生了分叉
+	stop         chan bool           // 用来控制是否停止遍历的管道
+	lock         sync.Mutex          // 控制并发
 }
 
-func NewBlockScanner(requester ETHRPCRequester, mysql dao.MySQLConnector) *BlockScanner {
+func NewBlockScanner(requester eth.ETHRPCRequester, mysql dao.MySQLConnector) *BlockScanner {
 	return &BlockScanner{
 		ethRequester: requester,
 		mysql:        mysql,

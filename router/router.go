@@ -9,16 +9,10 @@ import (
 func Router() *gin.Engine {
 	//gin framework
 	router := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
 
 	//处理静态资源
 	router.Static("/static", "./static")
-	//router.Use(handler.HTTPInterceptor())
-	// 目录[handler/user.go
-	//不需要验证可以直接访问
-	/*	router.GET("/user/signup", handler.SignUpHandler)
-		router.POST("/user/signup", handler.DoSignUpHandler)
-		router.GET("/user/signin", handler.SignInHandler)
-		router.POST("/user/signin", handler.DoSignInHandler)*/
 
 	//新建钱包
 	router.POST("/user/createethwallet", handler.CreateWallet)

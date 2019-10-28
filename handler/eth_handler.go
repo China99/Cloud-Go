@@ -3,7 +3,6 @@ package handler
 import (
 	"Cloud-Go/handler/eth"
 	"Cloud-Go/util"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -13,8 +12,9 @@ import (
 
 //测试变量
 const (
-	NodeUrl = "https://ropsten.infura.io/v3/bd40ce91ed6b4c26a6e8b219eca567db"
-	Version = "latest"
+	NodeUrl  = "https://ropsten.infura.io/v3/bd40ce91ed6b4c26a6e8b219eca567db"
+	NodeUrl1 = "https://mainnet.infura.io/v3/bd40ce91ed6b4c26a6e8b219eca567db"
+	Version  = "latest"
 )
 
 //新建钱包
@@ -126,12 +126,18 @@ func SendETHTransaction(c *gin.Context) {
 	pwd := util.Sha1([]byte(str1 + pwdSalt))
 	fmt.Println(pwd)
 	//
-	from := c.Query("from")
-	to := c.Query("to")
-	value := c.Query("value")
-	gaslimit := c.Request.FormValue("gaslimit")
-	gasprice := c.Query("gasprice")
-	password := c.Query("password")
+	from, _ := c.GetPostForm("from")
+	to, _ := c.GetPostForm("to")
+	value, _ := c.GetPostForm("value")
+	gaslimit, _ := c.GetPostForm("gaslimit")
+	gasprice, _ := c.GetPostForm("gasprice")
+	password, _ := c.GetPostForm("password")
+	//from := c.Query("from")
+	//to := c.Query("to")
+	//value := c.Query("value")
+	//gaslimit := c.Request.FormValue("gaslimit")
+	//gasprice := c.Query("gasprice")
+	//password := c.Query("password")
 
 	gaslimitUint, _ := strconv.ParseUint(gaslimit, 10, 64)
 	gasPriceUint, _ := strconv.ParseUint(gasprice, 10, 64)
@@ -171,7 +177,7 @@ func SendETHTransaction(c *gin.Context) {
 
 }
 
-//根据交易hash查询交易数据
+//根据区块hash查询交易数据
 func GetBlockInfoByHash(c *gin.Context) {
 
 	//txHash := "0x53c5b03e392d6aa68a0df26b6d466ae8fbd1c2c5b74f9baae05434ec9a18a282" //测试区块
@@ -182,18 +188,18 @@ func GetBlockInfoByHash(c *gin.Context) {
 		fmt.Println("非法交易 hash 值")
 		return
 	}
-	txInfo, err := eth.NewETHRPCRequester(NodeUrl).GetBlockInfoByHashService(txHash)
+	txInfo, err := eth.NewETHRPCRequester(NodeUrl1).GetBlockInfoByHashService(txHash)
 	if err != nil {
 		// 查询失败，打印出信息
 		fmt.Println("查询交易失败，信息是：", err.Error())
 		return
 	}
 	// 查询成功，将 transaction 结果的结构体以 json 格式序列化，再以 string 格式输出
-	json, _ := json.Marshal(txInfo)
+
 	c.JSON(http.StatusOK, gin.H{
 		"code": 1,
 		"msg":  "success",
-		"data": json,
+		"data": txInfo,
 	})
 	//	fmt.Println(string(json))
 }
@@ -216,11 +222,11 @@ func GetBlockTransactions(c *gin.Context) {
 		return
 	}
 	// 查询成功，将 transaction 结果的结构体以 json 格式序列化，再以 string 格式输出
-	json, _ := json.Marshal(txInfos)
+
 	c.JSON(http.StatusOK, gin.H{
 		"code": 1,
 		"msg":  "success",
-		"data": json,
+		"data": txInfos,
 	})
 }
 

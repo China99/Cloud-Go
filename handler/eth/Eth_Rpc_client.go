@@ -8,7 +8,6 @@ import (
 type EthRpcClient struct {
 	NodeUrl string      //代表节点的url连接
 	client  *rpc.Client //代表Rpc客户端实例
-
 }
 
 //传入服务器节点
